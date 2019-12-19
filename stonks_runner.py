@@ -12,6 +12,7 @@ from stonks import get_stonk_info,get_financials_macrotrends
 # Set up excel file for parsing, some lists.
 
 df = pd.read_excel('Equity_research.xlsx')
+print(df)
 analysis = []
 stonksList = df['Ticker']
 
@@ -47,6 +48,6 @@ for i in range(len(stonksList)):
 # print(df)
 df = pd.DataFrame(analysis, columns=['Ticker','Price', 'PE','PB','Operating Margin','ROE','Debt','Yield'])
 print(df)
-# with pd.ExcelWriter('stonksresearch.xlsx') as writer:
-#     df.to_excel(writer, sheet_name='Sheet1')
+with pd.ExcelWriter('stonksresearch.xlsx') as writer:
+    df.to_excel(writer, sheet_name='Sheet1')
 #
