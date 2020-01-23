@@ -13,8 +13,12 @@ from stonks import get_stonk_info,get_financials_macrotrends
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 df = pd.read_excel('stonksresearch.xlsx')
 print(df)
+=======
+df = pd.read_excel('Equity_research.xlsx')
+>>>>>>> parent of aceba20... finally
 =======
 df = pd.read_excel('Equity_research.xlsx')
 >>>>>>> parent of aceba20... finally
