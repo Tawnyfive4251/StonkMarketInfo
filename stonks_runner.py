@@ -11,10 +11,18 @@ from stonks import get_stonk_info,get_financials_macrotrends
 
 # Set up excel file for parsing, some lists.
 
-df = pd.read_excel('Equity_research.xlsx')
+<<<<<<< HEAD
+<<<<<<< HEAD
+df = pd.read_excel('stonksresearch.xlsx')
 print(df)
+=======
+df = pd.read_excel('Equity_research.xlsx')
+>>>>>>> parent of aceba20... finally
+=======
+df = pd.read_excel('Equity_research.xlsx')
+>>>>>>> parent of aceba20... finally
 analysis = []
-stonksList = df['Ticker']
+stonksList = df['Ticker'].to_list()
 
 # Creates the lists with empty values to prevent errors if it fails.
 stonkprice = [""] * len(stonksList)
@@ -33,8 +41,11 @@ stonkyield = [""] * len(stonksList)
 kowalski = GetOneInfoUSA()
 print("-------------------getting NASDAQ info----------------------")
 for i in range(len(stonksList)):
-    analysis.append(kowalski.get_info(stonksList[i]))
-
+    try:
+        analysis.append(kowalski.get_info(stonksList[i]))
+    except:
+        print('fail')
+        # stonksList.remove(stonksList[i])
 # df.drop(columns=['FOM'])
 # df ['Price'] = stonkprice
 # df ['PE '] = stonkPE
@@ -46,8 +57,14 @@ for i in range(len(stonksList)):
 # # df['FOM'] = FOM
 # # df ['ticker'] = stonkticker
 # print(df)
-df = pd.DataFrame(analysis, columns=['Ticker','Price', 'PE','PB','Operating Margin','ROE','Debt','Yield'])
+print(analysis)
+df = pd.DataFrame(analysis, columns=['Ticker','Price', 'PE','PB','Operating Margin','ROE','Debt','Yield','50 Day Average','200 Day Average', 'Golden Cross'])
+FOMScore = ((df['Debt'].rank(na_option='bottom',pct=True)) * (df['PB'].rank(na_option='bottom',pct=True)) * (df['PE'].rank(na_option='bottom',pct=True)))
+df = df.insert(11,"Figure Of Merit Score",FOMScore)
+# FOMRank = (df['Figure Of Merit Rank'].rank(na_option='bottom',pct=True))
+# df = df.insert(11,"Figure Of Merit Rank",FOMRank)
+
 print(df)
-with pd.ExcelWriter('stonksresearch.xlsx') as writer:
-    df.to_excel(writer, sheet_name='Sheet1')
+# with pd.ExcelWriter('stonksresearch.xlsx') as writer:
+#     df.to_excel(writer, sheet_name='Sheet1')
 #

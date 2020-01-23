@@ -3,7 +3,14 @@ from selenium import webdriver
 # import pandas as pd
 from bs4 import BeautifulSoup
 import lxml
+import pandas as pd
+import statistics
+# from selenium.webdriver.chrome.options import Options
+
 #setting up the webdriver
+# chrome_options = Options()
+# chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--log-level=3")
 driver = webdriver.Chrome('C:/Users/Tawny/Documents/chromedriver.exe')
 
 class get_stonk_info:
@@ -70,6 +77,18 @@ class get_financials_macrotrends():
         YieldDiv = driver.find_element_by_xpath('//*[@id="main_content"]/div[2]/span/strong[2]')
         Yield = YieldDiv.text
         return Yield
+
+    def get_moving_avgs(self,stonk):
+        url = 'http://download.macrotrends.net/assets/php/stock_data_export.php?t={}'.format(stonk)
+        csv = pd.read_csv(url, error_bad_lines=False,skiprows=15,header=None)
+        csv_50_days = csv.tail(50)
+        fiftymovingavg = statistics.mean(csv_50_days[1].to_list())
+        csv_200_days = csv.tail(200)
+        twohundredmovingavg = statistics.mean(csv_200_days[1].to_list())
+        ret = (fiftymovingavg, twohundredmovingavg)
+        return ret
+
+
 #   //*[@id="main_content"]/div[2]/span/strong[2]
 
 ##testing
